@@ -1,0 +1,57 @@
+.main{
+  background-image: url(../../assets/image/login-background.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  margin: auto;
+  height: 620px;
+  width: 380px;
+  border-radius: 10px;
+  box-shadow: 0 3px 1px -2px rgba(82,63,104,.06), 0 2px 2px 0 rgba(82,63,104,.042), 0 1px 5px 0 rgba(82,63,104,.036);
+}
+
+.logo{
+  margin: auto;
+  height: 200px;
+  width: 200px;
+  border-radius: 5px;
+}
+
+.number{
+  margin: auto;
+  margin-top: -30px;
+  width: 80%;
+}
+
+.input{
+  width: 100%;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.overlay {
+  height:100vh;
+  width:100%;
+  background-color:rgba(0, 0, 0, 0.286);
+  z-index:    10;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}

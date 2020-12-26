@@ -1,0 +1,134 @@
+<div class="main">
+  <div class="box">
+    <div class="header">
+      <h1>Profile</h1>
+    </div>
+    <div class="form">
+      <mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="personalDetails">
+          <form [formGroup]="personalDetails">
+            <ng-template matStepLabel>Personal Details</ng-template>
+
+            <mat-form-field style="margin-top: 20px;" appearance="fill">
+              <mat-label>Company (optional)</mat-label>
+              <input matInput formControlName="company" placeholder="Company Name">
+            </mat-form-field>
+
+            <table cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="firstName" placeholder="First name" required>
+                    <mat-error *ngIf="personalDetails.controls.firstName.hasError('required')">
+                      First Name is required
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field  appearance="fill">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="lastName" placeholder="Last name" required>
+                    <mat-error *ngIf="personalDetails.controls.lastName.hasError('required')">
+                      Last Name is required
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+
+            <mat-form-field  appearance="fill">
+              <mat-label>Mobile Number</mat-label>
+              <input type="number" matInput formControlName="mobileNumber" placeholder="Mobile Number" required>
+              <mat-error *ngIf="personalDetails.controls.mobileNumber.hasError('required')">
+                Mobile Number is required
+              </mat-error>
+              <mat-error *ngIf="personalDetails.controls.mobileNumber.hasError('min') || personalDetails.controls.mobileNumber.hasError('max')">
+                Please enter a valid mobile number (10 digits)
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="margin-bottom: 20px;" appearance="fill">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" placeholder="Address" required>
+              <mat-error *ngIf="personalDetails.controls.address.hasError('required')">
+                Address is required
+              </mat-error>
+            </mat-form-field>
+
+            <button style="float: right;" mat-button matStepperNext>Next</button>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="vehicleDetails">
+          <form [formGroup]="vehicleDetails">
+            <ng-template matStepLabel>Vehicle Details</ng-template>
+            <div class="vehicleList">
+              <div>
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Vehicle Company</mat-label>
+                        <input matInput formControlName="vehicleCompany" placeholder="Vehicle Company" required>
+                        <mat-error *ngIf="vehicleDetails.controls.vehicleCompany.hasError('required')">
+                          Vehicle Company is required
+                        </mat-error>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Vehicle Name</mat-label>
+                        <input matInput formControlName="vehicleName" placeholder="Vehicle Name" required>
+                        <mat-error *ngIf="vehicleDetails.controls.vehicleName.hasError('required')">
+                          Vehicle Name is required
+                        </mat-error>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Vehicle Number</mat-label>
+                        <input value="{{ vehicleDetails.controls.vehicleNumber.value | uppercase }}" matInput formControlName="vehicleNumber" placeholder="GJ06BH5904" required>
+                        <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('required')">
+                          Vehicle Number is required
+                        </mat-error>
+                        <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('pattern')">
+                          Vehicle Number is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div>
+                <button style="display:block; margin: 0 auto;" (click)="addVehicle()" [disabled]="vehicleDetails.invalid" mat-raised-button color="primary">Add Vehicle<mat-icon>add</mat-icon></button>
+              </div>
+              <mat-divider style="margin-top: 10px;" *ngIf="vehicleList.length != 0"></mat-divider>
+              <div style="height: 200px; overflow-y: auto;" *ngIf="vehicleList.length != 0">
+                <table>
+                  <tr>
+                    <th>Vehicle Company</th>
+                    <th>Vehicle Name</th>
+                    <th>Vehicle Number</th>
+                  </tr>
+                  <tr *ngFor="let v of vehicleList; let i = index">
+                    <td>{{ v.vehicleCompany }}</td>
+                    <td>{{ v.vehicleName }}</td>
+                    <td>{{ v.vehicleNumber }}</td>
+                    <td><mat-icon (click)="removeVehicle(i)" style="cursor: pointer; color: red;">delete_outline</mat-icon></td>
+                  </tr>
+                </table>
+              </div>
+              <mat-divider *ngIf="vehicleList.length != 0"></mat-divider>
+            </div>
+            <div style="margin-top: 20px;">
+              <button style="float: left;" mat-button matStepperPrevious>Prev</button>
+              <div style="float: right;" matTooltip="Enter atleast 1 vehicle detail" matTooltipPosition="above" matTooltipHideDelay="3000" [matTooltipDisabled]="vehicleList.length > 0">
+                <button (click)="submit()" mat-flat-button color="primary" [disabled]="vehicleList.length < 1">Submit</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>

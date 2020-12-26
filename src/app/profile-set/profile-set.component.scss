@@ -1,0 +1,65 @@
+.main{
+  background: linear-gradient(135deg,#fafafa 22px,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 24px,transparent 0,transparent 67px,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 69px,transparent 0),linear-gradient(225deg,#fafafa 22px,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 24px,transparent 0,transparent 67px,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 69px,transparent 0) 0 64px;
+    background-color: #fafafa;
+    background-size: 64px 128px;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+}
+
+.box{
+  box-shadow: 0 3px 1px -2px rgba(82,63,104,.06), 0 2px 2px 0 rgba(82,63,104,.042), 0 1px 5px 0 rgba(82,63,104,.036);
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  margin: auto;
+  height: 620px;
+  width: 600px;
+  border-radius: 10px;
+}
+
+.header{
+  height: 15%;
+  background-color: #1976d2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fff;
+  text-align: center;
+  display: table;
+
+  h1{
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.form{
+  height: 80%;
+  margin: 20px 0 0 0;
+}
+
+table{
+  width: 100%;
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+.vehicleList{
+  height: 300px;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
