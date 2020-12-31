@@ -31,6 +31,9 @@ export class RegisterComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    if(sessionStorage.getItem('userId')){
+      this.router.navigate(['home']);
+    }
   }
 
   email = new FormControl('', [

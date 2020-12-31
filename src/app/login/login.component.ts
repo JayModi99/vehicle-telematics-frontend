@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(localStorage.getItem('userId')){
+    if(sessionStorage.getItem('userId')){
       this.router.navigate(['home']);
     }
   }
@@ -55,8 +55,9 @@ export class LoginComponent implements OnInit {
       this.openSnackBar("Login Successful");
       this.submit = false;
       var response: any = result;
-      localStorage.setItem('userId', response.id);
-      if(response.profileSet){
+      var userId = btoa(response.id);
+      sessionStorage.setItem('userId', userId);
+      if(response.profileSet == 'true'){
         this.router.navigate(['home']);
       }
       else{
@@ -65,7 +66,6 @@ export class LoginComponent implements OnInit {
     },
     (error) => {
       this.submit = false;
-      console.log(error);
       if(error.error.message == 'Access Denied'){
         this.openSnackBar("Invalid Credentials");
       }

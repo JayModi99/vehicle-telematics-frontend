@@ -1,4 +1,5 @@
 export class User {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -6,5 +7,5 @@ export class User {
   mobileNumber: string;
   company: string;
   address: string;
-  profileSet: boolean;
+  profileSet: string;
 }

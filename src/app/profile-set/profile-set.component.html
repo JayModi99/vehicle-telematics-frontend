@@ -87,11 +87,11 @@
                     <td>
                       <mat-form-field>
                         <mat-label>Vehicle Number</mat-label>
-                        <input value="{{ vehicleDetails.controls.vehicleNumber.value | uppercase }}" matInput formControlName="vehicleNumber" placeholder="GJ06BH5904" required>
+                        <input value="{{ vehicleDetails.controls.vehicleNumber.value | uppercase }}" matInput formControlName="vehicleNumber" maxlength="10" placeholder="GJ06BH5904" required>
                         <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('required')">
                           Vehicle Number is required
                         </mat-error>
-                        <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('pattern')">
+                        <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('pattern') || vehicleDetails.controls.vehicleNumber.hasError('minlength') || vehicleDetails.controls.vehicleNumber.hasError('maxlength')">
                           Vehicle Number is not valid
                         </mat-error>
                       </mat-form-field>
@@ -114,7 +114,7 @@
                     <td>{{ v.vehicleCompany }}</td>
                     <td>{{ v.vehicleName }}</td>
                     <td>{{ v.vehicleNumber }}</td>
-                    <td><mat-icon (click)="removeVehicle(i)" style="cursor: pointer; color: red;">delete_outline</mat-icon></td>
+                    <td><button mat-icon-button><mat-icon (click)="removeVehicle(i)" style="cursor: pointer; color: red;">delete_outline</mat-icon></button></td>
                   </tr>
                 </table>
               </div>

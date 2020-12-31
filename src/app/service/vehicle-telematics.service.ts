@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../model/User';
 import { Vehicle } from '../model/Vehicle';
 
@@ -8,20 +8,28 @@ import { Vehicle } from '../model/Vehicle';
 })
 export class VehicleTelematicsService {
 
+  userId = atob(sessionStorage.getItem('userId'));
+
+  url: string = 'http://localhost:8080/api/v1/';
+
   constructor(
-    private firestore: AngularFirestore
+    private http: HttpClient
   ) { }
 
-  updateUser(userId, user: User){
-    return this.firestore.collection('users').doc(userId).update(user);
+  saveUserProfile(user: User){
+    return this.http.post(this.url + 'user/saveUserProfile', user);
   }
 
-  addVehicle(userId, vehicle: Vehicle){
-    return this.firestore.collection('users').doc(userId).collection('vehicles').doc(vehicle.vehicleNumber).set({...vehicle});
+  findVehicleByVehicleNumber(vehicleNumber: string){
+    return this.http.get(this.url + 'vehicle/findByVehicleNumber/' + vehicleNumber + '/' + this.userId);
   }
 
-  getVehicle(userId, vehicleNumber){
-    return this.firestore.collection('users').doc(userId).collection('vehicles').doc(vehicleNumber).get();
+  addVehicles(vehicleList: Array<Vehicle>){
+    return this.http.post(this.url + 'vehicle/addVehicles', vehicleList);
+  }
+
+  isProfileSet(){
+    return this.http.get(this.url + 'user/isProfileSet/' + this.userId);
   }
 
 }
