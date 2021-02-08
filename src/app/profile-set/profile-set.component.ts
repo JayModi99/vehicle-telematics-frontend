@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProfileSetComponent implements OnInit {
 
   userId: any;
+  isLoggedIn: string;
 
   personalDetails: FormGroup;
   vehicleDetails: FormGroup;
@@ -28,7 +29,8 @@ export class ProfileSetComponent implements OnInit {
 
   ngOnInit() {
     this.userId = +atob(sessionStorage.getItem('userId'));
-    if(!this.userId){
+    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
     this.vehicleTelematicsService.isProfileSet()
@@ -67,38 +69,29 @@ export class ProfileSetComponent implements OnInit {
           this.openSnackBar('Vehicle already Added');
         }
         else{
-          this.vehicleTelematicsService.findVehicleByVehicleNumber(vehicle.vehicleNumber)
-          .subscribe((result: Vehicle) => {
-            if(result == null){
-              this.vehicleList.push(vehicle);
-              this.vehicleDetails.reset();
-              this.router.navigate(['home']);
-            }
-            else{
-              this.openSnackBar('Vehicle already Exists');
-            }
-          },
-          (error) => {
-            this.openSnackBar('Failed to add Vehicle. Try Again');
-          });
+          this.addVehicleToList(vehicle);
         }
       });
     }
     else{
-      this.vehicleTelematicsService.findVehicleByVehicleNumber(vehicle.vehicleNumber)
-      .subscribe((result: Vehicle) => {
-        if(result == null){
-          this.vehicleList.push(vehicle);
-          this.vehicleDetails.reset();
-        }
-        else{
-          this.openSnackBar('Vehicle already Exists');
-        }
-      },
-      (error) => {
-        this.openSnackBar('Failed to add Vehicle. Try Again');
-      });
+      this.addVehicleToList(vehicle);
     }
+  }
+
+  addVehicleToList(vehicle: Vehicle){
+    this.vehicleTelematicsService.findVehicleByVehicleNumber(vehicle.vehicleNumber)
+    .subscribe((result: Vehicle) => {
+      if(result == null){
+        this.vehicleList.push(vehicle);
+        this.vehicleDetails.reset();
+      }
+      else{
+        this.openSnackBar('Vehicle already Exists');
+      }
+    },
+    (error) => {
+      this.openSnackBar('Failed to add Vehicle. Try Again');
+    });
   }
 
   removeVehicle(index){
@@ -116,6 +109,7 @@ export class ProfileSetComponent implements OnInit {
       .subscribe((result) => {
         this.openSnackBar('Profile Successfully Updated');
         this.vehicleList = null;
+        this.router.navigate(['home']);
       },
       (error) => {
         this.openSnackBar('Failed To add Vehicles');

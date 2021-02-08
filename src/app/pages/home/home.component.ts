@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   userId: any;
+  isLoggedIn: string;
 
   constructor(
     private router: Router
@@ -16,14 +17,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.userId = +atob(sessionStorage.getItem('userId'));
-    if(!this.userId){
+    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
-  }
-
-  signOut(){
-    sessionStorage.clear();
-    this.router.navigate(['login']);
   }
 
 }

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(sessionStorage.getItem('userId')){
+    if(sessionStorage.getItem('userId') && atob(sessionStorage.getItem('isLoggedIn')) == 'true'){
       this.router.navigate(['home']);
     }
   }
@@ -55,10 +55,18 @@ export class LoginComponent implements OnInit {
       this.openSnackBar("Login Successful");
       this.submit = false;
       var response: any = result;
+      sessionStorage.setItem('isLoggedIn', btoa('true'));
       var userId = btoa(response.id);
       sessionStorage.setItem('userId', userId);
+      if(response.company){
+        sessionStorage.setItem('name', response.company);
+      }
+      else{
+        sessionStorage.setItem('name', response.firstName + ' ' + response.lastName);
+      }
       if(response.profileSet == 'true'){
         this.router.navigate(['home']);
+        window.location.reload();
       }
       else{
         this.router.navigate(['set-profile']);

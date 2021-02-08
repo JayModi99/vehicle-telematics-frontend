@@ -1,0 +1,55 @@
+<div class="main">
+  <mat-toolbar class="header">
+    <div class="navbar">
+      <div class="left">
+        <mat-icon (click)="drawer.toggle()" matRipple class="menu" style="margin-right: 20px;">menu</mat-icon>
+        <div routerLink="home" matRipple>
+          <img src="../../../assets/image/logo-transparent-white.png" height="30px" style="vertical-align: middle;">
+          <label class="app-name" style="margin-left: 15px; font-size: 20px; cursor: pointer;">Telewix</label>
+        </div>
+      </div>
+      <div class="right">
+        <button [matMenuTriggerFor]="menu" mat-button>
+          <img src="../../assets/image/default-avatar.png" mat-card-avatar class="header-image">
+          <label style="font-size: 15px; margin-left: 10px; cursor: pointer;">{{ name }}</label>
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button (click)="signOut()" mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-toolbar>
+  <mat-drawer-container [hasBackdrop]="sidebarMode == 'over'" class="container">
+    <mat-drawer #drawer [opened]="sidebarMode == 'side'" class="sidebar" [mode]="sidebarMode">
+      <div>
+        <mat-nav-list>
+          <mat-list-item routerLink='/home' routerLinkActive="active" class="menu-item">
+            <mat-icon>dashboard</mat-icon>
+            <label class="item-label">Dashboard</label>
+          </mat-list-item>
+          <mat-list-item routerLink='/sub-users' routerLinkActive="active" class="menu-item">
+            <mat-icon>group</mat-icon>
+            <label class="item-label">Sub Users</label>
+          </mat-list-item>
+          <mat-list-item routerLink='/vehicles' routerLinkActive="active" class="menu-item">
+            <mat-icon>directions_car</mat-icon>
+            <label class="item-label">Vehicles</label>
+          </mat-list-item>
+          <mat-list-item class="menu-item">
+            <mat-icon>person</mat-icon>
+            <label class="item-label">Profile</label>
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

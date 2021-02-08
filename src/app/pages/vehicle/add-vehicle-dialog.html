@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Add Vehicle</h2>
+<mat-dialog-content style="height: max-content;">
+  <form [formGroup]="vehicleDetails">
+    <ng-template matStepLabel>Vehicle Details</ng-template>
+    <div class="vehicleList">
+      <div>
+        <table cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Vehicle Company</mat-label>
+                <mat-select formControlName="vehicleCompany" >
+                  <mat-option (click)="onCompanyChange(i)" *ngFor="let vd of vehicleData; let i = index" [value]="vd.company">{{ vd.company }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-label>Vehicle Name</mat-label>
+                <mat-select [disabled]="!isCompanySelected" formControlName="vehicleName" >
+                  <mat-option *ngFor="let vd of vehicleData[companyIndex].model" [value]="vd">{{ vd }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-label>Vehicle Number</mat-label>
+                <input value="{{ vehicleDetails.controls.vehicleNumber.value | uppercase }}" matInput formControlName="vehicleNumber" maxlength="10" placeholder="GJ06BH5904" required>
+                <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('required')">
+                  Vehicle Number is required
+                </mat-error>
+                <mat-error *ngIf="vehicleDetails.controls.vehicleNumber.hasError('pattern') || vehicleDetails.controls.vehicleNumber.hasError('minlength') || vehicleDetails.controls.vehicleNumber.hasError('maxlength')">
+                  Vehicle Number is not valid
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <button style="display:block; margin: 0 auto;" (click)="addVehicle()" [disabled]="vehicleDetails.invalid" mat-raised-button color="primary">Add Vehicle<mat-icon>add</mat-icon></button>
+      </div>
+      <mat-divider style="margin-top: 10px;" *ngIf="vehicleList.length != 0"></mat-divider>
+      <div style="height: 200px; overflow-y: auto;" *ngIf="vehicleList.length != 0">
+        <table>
+          <tr>
+            <th>Vehicle Company</th>
+            <th>Vehicle Name</th>
+            <th>Vehicle Number</th>
+          </tr>
+          <tr *ngFor="let v of vehicleList; let i = index">
+            <td>{{ v.vehicleCompany }}</td>
+            <td>{{ v.vehicleName }}</td>
+            <td>{{ v.vehicleNumber }}</td>
+            <td><button mat-icon-button><mat-icon (click)="removeVehicle(i)" style="cursor: pointer; color: red;">delete_outline</mat-icon></button></td>
+          </tr>
+        </table>
+      </div>
+      <mat-divider *ngIf="vehicleList.length != 0"></mat-divider>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button (click)="submit()" mat-flat-button color="primary" [disabled]="vehicleList.length < 1">Submit</button>
+</mat-dialog-actions>

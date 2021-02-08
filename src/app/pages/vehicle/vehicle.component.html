@@ -1,0 +1,37 @@
+<div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <mat-card style="height: 90%; width: 90%; overflow-y: auto;">
+      <mat-card-header style="display: flex; justify-content: space-between; align-items: center;">
+        <mat-card-title style="margin-top: 20px; font-weight: bold;">Vehicles</mat-card-title>
+        <button (click)="openDialog()" mat-raised-button color="primary" style="height: min-content; margin-right: 20px;">Add <mat-icon>add</mat-icon></button>
+      </mat-card-header>
+      <mat-card-content style="margin-top: 30px;">
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Vehicle Company</th>
+                <th>Vehicle Name</th>
+                <th>Vehicle Number</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of vehicleList; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ v.vehicleCompany }}</td>
+                <td>{{ v.vehicleName }}</td>
+                <td>{{ v.vehicleNumber }}</td>
+                <td><button (click)="deleteVehicle(v.id)" mat-icon-button style="cursor: pointer;" color="warn"><mat-icon>delete</mat-icon></button></td>
+              </tr>
+              <tr *ngIf="!vehicleList">
+                <td colspan="6" style="text-align: center;">No vehicles found </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,9 +1,11 @@
+import { SubUserRegisterModule } from './sub-user-register/sub-user-register.module';
+import { RouterModule } from '@angular/router';
+import { LayoutModule } from './layout/layout.module';
 import { FormsModule } from '@angular/forms';
 import { ProfileSetModule } from './profile-set/profile-set.module';
 import { RegisterModule } from './register/register.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { LoginModule } from './login/login.module';
-import { HomeModule } from './home/home.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,11 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
-    HomeModule,
     LoginModule,
     RegisterModule,
     ProfileSetModule,
-    FormsModule
+    FormsModule,
+    LayoutModule,
+    RouterModule,
+    SubUserRegisterModule
   ],
   providers: [],
   bootstrap: [AppComponent],

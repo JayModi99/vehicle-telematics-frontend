@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title = 'vehicle-telematics';
+  isLoggedIn: string = 'false';
+
+  ngOnInit(){
+    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+  }
 }

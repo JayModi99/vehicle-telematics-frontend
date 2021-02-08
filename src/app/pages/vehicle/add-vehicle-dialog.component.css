@@ -1,0 +1,16 @@
+table{
+  width: 100%;
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+.vehicleList{
+  height: 300px;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}

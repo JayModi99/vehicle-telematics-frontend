@@ -1,0 +1,93 @@
+<div class="main">
+  <div class="form">
+    <div class="header">
+      <img class="logo" src="../../assets/image/logo-transparent-white.png">
+    </div>
+    <div style="margin: auto 0;">
+      <h1 style="text-align: center; font-weight: bold;">Sub-User Register</h1><br>
+      <form class="example-form">
+        <table style="width: 100%;" cellspacing="0">
+          <tr>
+            <td style="text-align: center;">
+              <mat-form-field style="width: 90%;" appearance="outline">
+                <mat-label>First name</mat-label>
+                <input matInput placeholder="First Name" [formControl]="firstName">
+                <mat-error *ngIf="firstName.hasError('required')">
+                  First Name is required
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td style="text-align: center;">
+              <mat-form-field style="width: 90%;" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name" [formControl]="lastName">
+                <mat-error *ngIf="lastName.hasError('required')">
+                  Last Name is required
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <mat-form-field style="width: 95%;" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput placeholder="Email" [formControl]="email">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error *ngIf="email.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="email.hasError('pattern')">
+                  Please enter a valid email
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <mat-form-field style="width: 95%;" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input (input)="passwordChange()" *ngIf="!showPassword" type="password" matInput placeholder="Password" [formControl]="password">
+                <mat-icon style="cursor: pointer;" (click)="showHidePassword(true)" *ngIf="!showPassword" matSuffix>visibility_off</mat-icon>
+                <input (input)="passwordChange()" *ngIf="showPassword" type="text" matInput placeholder="Password" [formControl]="password">
+                <mat-icon style="cursor: pointer;" (click)="showHidePassword(false)" *ngIf="showPassword" matSuffix>visibility</mat-icon>
+                <mat-error *ngIf="password.hasError('required')">
+                  Password is required
+                </mat-error>
+                <mat-error *ngIf="password.hasError('minlength')">
+                  Password must be at least 6 characters
+                </mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <mat-form-field style="width: 95%;" appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input (input)="passwordChange()" *ngIf="!showConfirmPassword" type="password" matInput placeholder="Confirm Password" [formControl]="confirmPassword">
+                <mat-icon style="cursor: pointer;" (click)="showHideConfirmPassword(true)" *ngIf="!showConfirmPassword" matSuffix>visibility_off</mat-icon>
+                <input (input)="passwordChange()" *ngIf="showConfirmPassword" type="text" matInput placeholder="Confirm Password" [formControl]="confirmPassword">
+                <mat-icon style="cursor: pointer;" (click)="showHideConfirmPassword(false)" *ngIf="showConfirmPassword" matSuffix>visibility</mat-icon>
+                <mat-error *ngIf="confirmPassword.hasError('required')">
+                  Password is required
+                </mat-error>
+              </mat-form-field>
+              <label style="color: red; font-size: 10.5px; margin-left: 22px; float: left; margin-top: -20px;" *ngIf="!passwordMatch && !confirmPassword.hasError('required')">
+                Password didn't match. Try again.
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <button (click)="register()" mat-flat-button style="width: 95%; height: 40px;" color="primary" [disabled]="email.invalid || password.invalid || confirmPassword.invalid || !passwordMatch">Sign Up</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="overlay" *ngIf="submit">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

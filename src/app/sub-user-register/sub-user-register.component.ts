@@ -1,15 +1,16 @@
-import { Router } from '@angular/router';
-import { AuthService } from './../service/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { SubUser } from '../model/SubUser';
+import { VehicleTelematicsService } from '../service/vehicle-telematics.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-sub-user-register',
+  templateUrl: './sub-user-register.component.html',
+  styleUrls: ['./sub-user-register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class SubUserRegisterComponent implements OnInit {
 
   emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -19,22 +20,29 @@ export class RegisterComponent implements OnInit {
 
   submit: boolean = false;
 
+  subUser: SubUser;
+
   authRequest: any = {
     "email": null,
     "password": null
   };
 
   constructor(
-    private authService: AuthService,
+    private vehicleTelematicsService: VehicleTelematicsService,
     private router: Router,
     private snackBar: MatSnackBar
     ) { }
 
   ngOnInit() {
-    if(sessionStorage.getItem('userId')){
-      this.router.navigate(['layout']);
-    }
   }
+
+  firstName = new FormControl('', [
+    Validators.required,
+  ]);
+
+  lastName = new FormControl('', [
+    Validators.required,
+  ]);
 
   email = new FormControl('', [
     Validators.required,
@@ -67,34 +75,26 @@ export class RegisterComponent implements OnInit {
     this.showConfirmPassword = flag;
   }
 
-  onSignUp(){
+  register(){
     this.submit = true;
-    this.authRequest.email = this.email.value;
-    this.authRequest.password = this.password.value;
-    this.authService.signUp(this.authRequest)
-    .subscribe((result) => {
-      console.log(result);
-      this.submit = false;
-      var response: any = result;
-      if(response.response == "User Registered Successfully"){
-        this.openSnackBar("User Registered Successfully");
+    this.subUser = new SubUser();
+    this.subUser.firstName = this.firstName.value;
+    this.subUser.lastName = this.lastName.value;
+    this.subUser.email = this.email.value;
+    this.subUser.password = this.password.value;
+    this.vehicleTelematicsService.verifySubUserEmail(this.subUser)
+    .subscribe((result: any) => {
+      this.openSnackBar(result.response);
+      if(result.response == 'Registration Successful'){
+        this.submit = false;
         this.router.navigate(['login']);
       }
-      else if(response.response == "Email already Registered"){
-        this.openSnackBar("Email already Registered");
-      }
-      else{
-        this.openSnackBar("Failed to Register");
-      }
+      this.submit = false;
     },
     (error) => {
       this.submit = false;
-      this.openSnackBar("Failed to Register");
+      this.openSnackBar('Failed to Register');
     });
-  }
-
-  signIn(){
-    this.router.navigate(['login']);
   }
 
   openSnackBar(message: string) {

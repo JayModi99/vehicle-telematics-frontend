@@ -12,7 +12,7 @@
           <mat-error *ngIf="email.hasError('required')">
             Email is required
           </mat-error>
-          <mat-error *ngIf="email.hasError('email')">
+          <mat-error *ngIf="email.hasError('pattern')">
             Please enter a valid email
           </mat-error>
         </mat-form-field><br>
@@ -41,7 +41,7 @@
             Password is required
           </mat-error>
         </mat-form-field>
-        <label style="color: red; font-size: 10.5px; margin-left: 10px;" *ngIf="!passwordMatch">
+        <label style="color: red; font-size: 10.5px; margin-left: 12px; float: left; margin-top: -20px;" *ngIf="!passwordMatch && !confirmPassword.hasError('required')">
           Password didn't match. Try again.
         </label>
         <button (click)="onSignUp()" mat-flat-button style="width: 100%; height: 40px;" color="primary" [disabled]="email.invalid || password.invalid || confirmPassword.invalid || !passwordMatch">Sign Up</button><br><br><br>
