@@ -11,6 +11,6 @@ export class AppComponent {
   isLoggedIn: string = 'false';
 
   ngOnInit(){
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
   }
 }

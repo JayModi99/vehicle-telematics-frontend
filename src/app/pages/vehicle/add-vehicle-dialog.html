@@ -64,3 +64,8 @@
   <button mat-button mat-dialog-close>Cancel</button>
   <button (click)="submit()" mat-flat-button color="primary" [disabled]="vehicleList.length < 1">Submit</button>
 </mat-dialog-actions>
+<div class="overlay" *ngIf="loading">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

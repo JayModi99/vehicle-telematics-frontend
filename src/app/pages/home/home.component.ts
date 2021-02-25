@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }

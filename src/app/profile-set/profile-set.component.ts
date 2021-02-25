@@ -15,6 +15,7 @@ export class ProfileSetComponent implements OnInit {
 
   userId: any;
   isLoggedIn: string;
+  loading: boolean = false;
 
   personalDetails: FormGroup;
   vehicleDetails: FormGroup;
@@ -28,16 +29,23 @@ export class ProfileSetComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
+    this.loading = true;
     this.vehicleTelematicsService.isProfileSet()
     .subscribe((result: boolean) => {
       if(result){
+        this.loading = false;
         this.router.navigate(['home']);
       }
+    },
+    (error) => {
+      this.loading = false;
+      this.openSnackBar('Failed to load!');
+      this.router.navigate(['home']);
     });
 
     this.personalDetails = this._formBuilder.group({
@@ -79,17 +87,21 @@ export class ProfileSetComponent implements OnInit {
   }
 
   addVehicleToList(vehicle: Vehicle){
+    this.loading = true;
     this.vehicleTelematicsService.findVehicleByVehicleNumber(vehicle.vehicleNumber)
     .subscribe((result: Vehicle) => {
       if(result == null){
+        this.loading = false;
         this.vehicleList.push(vehicle);
         this.vehicleDetails.reset();
       }
       else{
+        this.loading = false;
         this.openSnackBar('Vehicle already Exists');
       }
     },
     (error) => {
+      this.loading = false;
       this.openSnackBar('Failed to add Vehicle. Try Again');
     });
   }
@@ -99,6 +111,7 @@ export class ProfileSetComponent implements OnInit {
   }
 
   submit(){
+    this.loading = true;
     var user: User = new User();
     user = this.personalDetails.value;
     user.id = this.userId;
@@ -107,15 +120,18 @@ export class ProfileSetComponent implements OnInit {
     .subscribe((result: User) => {
       this.vehicleTelematicsService.addVehicles(this.vehicleList)
       .subscribe((result) => {
+        this.loading = false;
         this.openSnackBar('Profile Successfully Updated');
         this.vehicleList = null;
         this.router.navigate(['home']);
       },
       (error) => {
+        this.loading = false;
         this.openSnackBar('Failed To add Vehicles');
       });
     },
     (error) => {
+      this.loading = false;
       this.openSnackBar('Failed to Add Personal Deatils');
     });
   }

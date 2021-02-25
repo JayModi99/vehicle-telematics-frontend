@@ -15,6 +15,7 @@ export class SubUserComponent implements OnInit {
 
   userId: any;
   isLoggedIn: string;
+  loading: boolean = false;
 
   subUserList: Array<SubUser>;
 
@@ -26,8 +27,8 @@ export class SubUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
@@ -35,26 +36,36 @@ export class SubUserComponent implements OnInit {
   }
 
   findAllSubUser(){
+    this.loading = true;
     this.vehicleTelematicsService.findAllSubUser()
     .subscribe((result: Array<SubUser>) => {
       this.subUserList = result;
+      this.loading = false;
     },
     (error) => {
       this.openSnackBar('Failed to load Sub User.');
+      this.loading = false;
     });
   }
 
   deleteSubUser(id: number){
+    this.loading = true;
     this.vehicleTelematicsService.deleteSubUser(id)
     .subscribe((result) => {
       if(result){
         this.openSnackBar('Sub-User Deleted');
         this.findAllSubUser();
+        this.loading = false;
       }
       else{
         this.openSnackBar('Failed to delete sub-user');
+        this.loading = false;
       }
-    })
+    },
+    (error) => {
+      this.openSnackBar('Failed to delete sub-user');
+      this.loading = false;
+    });
   }
 
   openDialog() {
@@ -99,8 +110,8 @@ export class AddSubUserDialog implements OnInit {
   ){}
 
   ngOnInit(){
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }

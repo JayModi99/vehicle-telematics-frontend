@@ -27,7 +27,7 @@
                 <td *ngIf="!s.hasVerified" style="color: #428bca; font-weight: bold;">Pending</td>
                 <td><button (click)="deleteSubUser(s.id)" mat-icon-button style="cursor: pointer;" color="warn"><mat-icon>delete</mat-icon></button></td>
               </tr>
-              <tr *ngIf="!subUserList">
+              <tr *ngIf="subUserList.length == 0">
                 <td colspan="6" style="text-align: center;">No Sub Users found</td>
               </tr>
             </tbody>
@@ -35,5 +35,10 @@
         </div>
       </mat-card-content>
     </mat-card>
+  </div>
+</div>
+<div class="overlay" *ngIf="loading">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
   </div>
 </div>

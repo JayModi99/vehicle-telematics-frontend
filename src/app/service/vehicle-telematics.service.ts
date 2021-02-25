@@ -9,9 +9,10 @@ import { Vehicle } from '../model/Vehicle';
 })
 export class VehicleTelematicsService {
 
-  userId = atob(sessionStorage.getItem('userId'));
+  userId = sessionStorage.getItem('userId');
 
-  url: string = 'http://localhost:8080/api/v1/';
+  //url = "http://localhost:8080/api/v1/";
+  url = "https://vehicle-telematics.herokuapp.com/api/v1/";
 
   constructor(
     private http: HttpClient

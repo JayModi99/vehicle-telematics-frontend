@@ -16,6 +16,7 @@ export class VehicleComponent implements OnInit {
 
   userId: any;
   isLoggedIn: string;
+  loading: boolean = false;
   vehicleList: Array<Vehicle>;
 
   constructor(
@@ -26,8 +27,8 @@ export class VehicleComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
@@ -35,28 +36,35 @@ export class VehicleComponent implements OnInit {
   }
 
   findAllVehicles(){
+    this.loading = true;
     this.vehicleTelematicsService.findAllVehicles()
     .subscribe((result: Array<Vehicle>) => {
       this.vehicleList = result;
+      this.loading = false;
     },
     (error) => {
       this.openSnackBar('Failed to load vehicles');
+      this.loading = false;
     });
   }
 
   deleteVehicle(vehicleId: number){
+    this.loading = true;
     this.vehicleTelematicsService.deleteVehicle(vehicleId)
     .subscribe((result: boolean) => {
       if(result){
         this.openSnackBar('Vehicle Deleted');
         this.findAllVehicles();
+        this.loading = false;
       }
       else{
         this.openSnackBar('Failed to Delete Vehicle');
+        this.loading = false;
       }
     },
     (error) => {
       this.openSnackBar('Failed to Delete Vehicle');
+      this.loading = false;
     });
   }
 
@@ -89,6 +97,7 @@ export class AddVehicleDialog implements OnInit {
 
   userId: any;
   isLoggedIn: string;
+  loading: boolean = false;
 
   vehicleDetails: FormGroup;
   vehicleList: Array<Vehicle> = [];
@@ -102,8 +111,8 @@ export class AddVehicleDialog implements OnInit {
   ){}
 
   ngOnInit(){
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if(!this.userId || this.isLoggedIn != 'true'){
       this.router.navigate(['login']);
     }
@@ -143,18 +152,22 @@ export class AddVehicleDialog implements OnInit {
   }
 
   addVehicleToList(vehicle: Vehicle){
+    this.loading = true;
     this.vehicleTelematicsService.findVehicleByVehicleNumber(vehicle.vehicleNumber)
     .subscribe((result: Vehicle) => {
       if(result == null){
         this.vehicleList.push(vehicle);
         this.vehicleDetails.reset();
+        this.loading = false;
       }
       else{
         this.openSnackBar('Vehicle already Exists');
+        this.loading = false;
       }
     },
     (error) => {
       this.openSnackBar('Failed to add Vehicle. Try Again');
+      this.loading = false;
     });
   }
 
@@ -163,13 +176,16 @@ export class AddVehicleDialog implements OnInit {
   }
 
   submit(){
+    this.loading = true;
     this.vehicleTelematicsService.addVehicles(this.vehicleList)
     .subscribe((result) => {
+      this.loading = false;
       this.openSnackBar('Vehicle Successfully Added');
       this.vehicleList = null;
       this.dialogRef.close();
     },
     (error) => {
+      this.loading = false;
       this.openSnackBar('Failed To add Vehicles');
     });
   }

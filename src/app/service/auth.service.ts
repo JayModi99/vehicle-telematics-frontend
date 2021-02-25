@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
-  url = "http://localhost:8080/api/v1/auth/";
+  //url = "http://localhost:8080/api/v1/auth/";
+  url = "https://vehicle-telematics.herokuapp.com/api/v1/auth/";
 
   constructor(
     private http: HttpClient

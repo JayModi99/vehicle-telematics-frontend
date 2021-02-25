@@ -21,8 +21,8 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userId = +atob(sessionStorage.getItem('userId'));
-    this.isLoggedIn = atob(sessionStorage.getItem('isLoggedIn'));
+    this.userId = +sessionStorage.getItem('userId');
+    this.isLoggedIn = sessionStorage.getItem('isLoggedIn');
     this.name = sessionStorage.getItem('name');
     if(!this.userId || this.isLoggedIn != 'true'){
       sessionStorage.clear();
