@@ -17,7 +17,7 @@ export class SubUserComponent implements OnInit {
   isLoggedIn: string;
   loading: boolean = false;
 
-  subUserList: Array<SubUser>;
+  subUserList: Array<SubUser> = new Array;
 
   constructor(
     private router: Router,

@@ -17,7 +17,7 @@ export class VehicleComponent implements OnInit {
   userId: any;
   isLoggedIn: string;
   loading: boolean = false;
-  vehicleList: Array<Vehicle>;
+  vehicleList: Array<Vehicle> = new Array;
 
   constructor(
     private router: Router,
